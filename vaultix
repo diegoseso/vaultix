@@ -1,0 +1,27 @@
+!# /bin/bash
+
+if [ ! -f ~/data ]; then
+ echo "¿Desea crear un nuevo repositoio? si/no"
+ read createRepo
+fi
+if [ "$createRepo" = "si" ]; then 
+    touch data
+    echo "Se ha creado satisfactoriamente un fichero de almacenaje"
+fi
+
+echo "¿Desea agregar una nueva entrada? si/no"
+read newEntry
+
+entryName=""
+entryValue=""
+
+if [ "$newEntry" = "si" ]; then 
+    echo "Indique un nombre para su registro:"
+    read entryName
+    echo "Indique el valor que desea almacenar:"
+    read entryValue
+fi 
+
+echo "Esta Ud. de acuerdo en registrar la entrada $entryName con valor $entryValue ? si/no"
+
+    
