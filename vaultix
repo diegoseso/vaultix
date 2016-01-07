@@ -1,27 +1,58 @@
 #!/bin/bash
 
 if [ ! -f data ]; then
- echo "¿Desea crear un nuevo repositoio? si/no"
- read createRepo
-fi
-if [ "$createRepo" = "si" ]; then 
-    touch data
-    echo "Se ha creado satisfactoriamente un fichero de almacenaje"
-fi
+    echo "¿Desea crear un nuevo repositoio? si/no"
+    read createRepo
+    if [ "$createRepo" = "si" ]; then 
+        touch data
+        echo "Se ha creado satisfactoriamente un fichero de almacenaje"
+    fi
+fi    
 
-echo "¿Desea agregar una nueva entrada? si/no"
-read newEntry
+exitProgram=0
+
+while [ $exitProgram = 0 ]; do
+echo "1. Agregar nueva entrada\n2.Buscar una entrada\n3. Salir"
+read option
+
+if [ "$option" = 3 ]; then
+    exitProgram="0"        
+fi 
 
 entryName=""
 entryValue=""
 
-if [ "$newEntry" = "si" ]; then 
-    echo "Indique un nombre para su registro:"
+if [ "$option" -eq 1 ]; then 
+    echo "Indique un nombre para su registro: "
     read entryName
-    echo "Indique el valor que desea almacenar:"
+    echo "Indique el valor que desea almacenar: "
     read entryValue
+    echo "Esta Ud. de acuerdo en registrar la entrada $entryName con valor $entryValue ? si/no"
+    read entryConfirmation
+
+    if [ "$entryConfirmation" = "si" ]; then
+        echo "$entryName\t$entryValue" > data
+    fi
+        
 fi 
 
-echo "Esta Ud. de acuerdo en registrar la entrada $entryName con valor $entryValue ? si/no"
+if [ "$option" -eq 2 ]; then
+    echo "¿Que desea buscar?: "
+    read haystack 
+    if [ "$haystack" != "" ]; then 
+        grep $haystack data
+    fi        
+fi
 
-    
+if [ "$option" -lt 3 ]; then
+   echo "¿Desea realizar otra operación? y/n"
+   read anotherOperation
+   if [ "$anotherOperation" = "n" ]; then
+      exitProgram="1"
+   else
+      sleep 4 
+      clear
+   fi
+fi
+done   
+exit 0 
