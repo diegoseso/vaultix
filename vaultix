@@ -22,6 +22,7 @@ fi
 entryName=""
 entryValue=""
 
+# Registering a new registry
 if [ "$option" -eq 1 ]; then 
     echo "Indique un nombre para su registro: "
     read entryName
@@ -31,11 +32,12 @@ if [ "$option" -eq 1 ]; then
     read entryConfirmation
 
     if [ "$entryConfirmation" = "si" ]; then
-        echo "$entryName\t$entryValue" > data
+        echo "$entryName\t$entryValue" >> data
     fi
         
 fi 
 
+# Search for a Specific registry
 if [ "$option" -eq 2 ]; then
     echo "¿Que desea buscar?: "
     read haystack 
