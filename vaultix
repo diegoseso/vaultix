@@ -5,6 +5,7 @@ if [ ! -f data ]; then
     read createRepo
     if [ "$createRepo" = "si" ]; then 
         touch data
+        chmod 700 data
         echo "Se ha creado satisfactoriamente un fichero de almacenaje"
     fi
 fi    
@@ -12,49 +13,51 @@ fi
 exitProgram=0
 
 while [ $exitProgram = 0 ]; do
-echo "1. Agregar nueva entrada\n2.Buscar una entrada\n3. Salir"
-read option
+    echo "1. Agregar nueva entrada\n2.Buscar una entrada\n3. Salir"
+    read option
 
-if [ "$option" = 3 ]; then
-    exitProgram="0"        
-fi 
+    if [ "$option" = 3 ]; then
+        exitProgram="0"        
+    fi 
 
-entryName=""
-entryValue=""
+    entryName=""
+    entryValue=""
 
-# Registering a new registry
-if [ "$option" -eq 1 ]; then 
-    echo "Indique un nombre para su registro: "
-    read entryName
-    echo "Indique el valor que desea almacenar: "
-    read entryValue
-    echo "Esta Ud. de acuerdo en registrar la entrada $entryName con valor $entryValue ? si/no"
-    read entryConfirmation
-
-    if [ "$entryConfirmation" = "si" ]; then
-        echo "${entryName}\t$entryValue" | awk '{print toupper($1)"\t"$2}' >> data
-    fi
+    # Registering a new registry
+    if [ "$option" -eq 1 ]; then 
+        echo "Indique un nombre para su registro: "
+        read entryName
+        echo "Indique el valor que desea almacenar: "
+        read entryValue
+        echo "Esta Ud. de acuerdo en registrar la entrada $entryName con valor $entryValue ? si/no"
+        read entryConfirmation
         
-fi 
+        if [ "$entryConfirmation" = "si" ]; then
+            su -c "echo -e $entryName'\t'$entryValue | awk '{print toupper(\$1)\"\t\"\$2}' >> data"
+            echo $command
+            exitProgram=0
+        fi
+        
+    fi 
 
-# Search for a Specific registry
-if [ "$option" -eq 2 ]; then
-    echo "¿Que desea buscar?: "
-    read haystack 
-    if [ "$haystack" != "" ]; then 
-        grep $haystack data
-    fi        
-fi
+    # Search for a Specific registry
+    if [ "$option" -eq 2 ]; then
+        echo "¿Que desea buscar?: "
+        read haystack 
+        if [ "$haystack" != "" ]; then 
+            grep $haystack data
+        fi        
+    fi
 
-if [ "$option" -lt 3 ]; then
-   echo "¿Desea realizar otra operación? y/n"
-   read anotherOperation
-   if [ "$anotherOperation" = "n" ]; then
-      exitProgram="1"
-   else
-      sleep 4 
-      clear
-   fi
-fi
+    if [ "$option" -lt 3 ]; then
+        echo "¿Desea realizar otra operación? y/n"
+        read anotherOperation
+        if [ "$anotherOperation" = "n" ]; then
+            exitProgram="1"
+        else
+            sleep 4 
+            clear
+        fi
+    fi
 done   
 exit 0 
