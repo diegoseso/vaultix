@@ -32,7 +32,7 @@ if [ "$option" -eq 1 ]; then
     read entryConfirmation
 
     if [ "$entryConfirmation" = "si" ]; then
-        echo "$entryName\t$entryValue" >> data
+        echo "${entryName}\t$entryValue" | awk '{print toupper($1)"\t"$2}' >> data
     fi
         
 fi 
