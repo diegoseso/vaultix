@@ -43,9 +43,10 @@ while [ $exitProgram = 0 ]; do
     # Search for a Specific registry
     if [ "$option" -eq 2 ]; then
         echo "¿Que desea buscar?: "
-        read haystack 
-        if [ "$haystack" != "" ]; then 
-            grep $haystack data
+        read needle 
+        if [ "$needle" != "" ]; then 
+            awk -v needle=$needle  'BEGIN{}toupper(needle)~$1{print $1"\t"$2}' data
+            #grep $haystack data
         fi        
     fi
 
@@ -58,6 +59,9 @@ while [ $exitProgram = 0 ]; do
             sleep 4 
             clear
         fi
+    fi
+    if [ "$option" -eq 3 ]; then
+        exit 0
     fi
 done   
 exit 0 
