@@ -13,7 +13,7 @@ fi
 exitProgram=0
 
 while [ $exitProgram = 0 ]; do
-    echo "1. Agregar nueva entrada\n2.Buscar una entrada\n3. Salir"
+    echo -e "1. Agregar nueva entrada\n2.Buscar una entrada\n3. Salir"
     read option
 
     if [ "$option" = 3 ]; then
@@ -45,7 +45,7 @@ while [ $exitProgram = 0 ]; do
         echo "¿Que desea buscar?: "
         read needle 
         if [ "$needle" != "" ]; then 
-            awk -v needle=$needle  'BEGIN{}toupper(needle)~$1{print $1"\t"$2}' data
+            awk -v needle=$needle  'BEGIN{}$1~/toupper(needle)*/{print $1"\t"$2}' data
             #grep $haystack data
         fi        
     fi
@@ -55,9 +55,6 @@ while [ $exitProgram = 0 ]; do
         read anotherOperation
         if [ "$anotherOperation" = "n" ]; then
             exitProgram="1"
-        else
-            sleep 4 
-            clear
         fi
     fi
     if [ "$option" -eq 3 ]; then
