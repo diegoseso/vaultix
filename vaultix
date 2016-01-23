@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#--# All lines that start with this combination will be deleted on production commandd
 if [ ! -f data ]; then
     echo "¿Desea crear un nuevo repositoio? si/no"
     read createRepo
@@ -44,9 +44,11 @@ while [ $exitProgram = 0 ]; do
     if [ "$option" -eq 2 ]; then
         echo "¿Que desea buscar?: "
         read needle 
-        if [ "$needle" != "" ]; then 
-            awk -v needle=$needle  'BEGIN{}$1~/toupper(needle)*/{print $1"\t"$2}' data
-            #grep $haystack data
+        if [ "$needle" != "" ]; then
+            #--# Lets try to pass to awk an already uppered needle
+            uneedle=$(echo $needle | awk '{print toupper($0)}')
+            echo $uneedle 
+            awk -v needle=$uneedle  'BEGIN{}$1~uneedle{print $1"\t"$2}' data
         fi        
     fi
 
