@@ -29,11 +29,11 @@ while [ $exitProgram = 0 ]; do
         read entryName
         echo "Indique el valor que desea almacenar: "
         read entryValue
-        echo "Esta Ud. de acuerdo en registrar la entrada $entryName con valor $entryValue ? si/no"
+        echo "Esta Ud. de acuerdo en registrar la entrada $entryName con valor $entryValue ? y/n"
         read entryConfirmation
         
-        if [ "$entryConfirmation" = "si" ]; then
-            su -c "echo -e $entryName'\t'$entryValue | awk '{print toupper(\$1)\"\t\"\$2}' >> data"
+        if [ "$entryConfirmation" = "y" ]; then
+            echo -e $entryName'\t'$entryValue | awk 'BEGIN{FS="\t"}{print toupper($1)FS$2}' >> data
             echo $command
             exitProgram=0
         fi
